@@ -1,0 +1,26 @@
+server {
+  server_name {{ website_name_1 }};
+
+  location / {
+    proxy_pass http://127.0.0.1:8080/;
+  }
+
+    listen [::]:443 ssl;
+    listen 443 ssl;
+    ssl_certificate /etc/letsencrypt/live/{{ website_name_1 }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ website_name_1 }}/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+}
+server {
+    if ($host = {{ website_name_1 }}) {
+        return 301 https://$host$request_uri;
+    }
+
+
+  listen 80;
+  listen [::]:80;
+  server_name {{ website_name_1 }};
+    return 404;
+}

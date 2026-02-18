@@ -1,0 +1,110 @@
+---
+# tasks file for node
+- name: Add user with sudo permission
+  user:
+    name: '{{ user_name }}'
+    shell: /bin/bash
+    groups: sudo
+    append: yes
+
+- name: Add or modify fsize hard limit for the user task. Keep or set the maximal value
+  pam_limits:
+    domain: '{{ user_name }}'
+    limit_type: hard
+    limit_item: fsize
+    value: '20000'
+    use_max: yes
+
+- name: Update Cache
+  apt:
+    update_cache: yes
+
+- name: Install nginx, nodejs etc..
+  apt:
+    name: ['nginx', 'nodejs', 'snap', 'npm']
+    state: present
+
+- name: Install the globally package "pm2".
+  npm:
+    name: pm2
+    global: yes
+    state: present
+
+- name: Install core
+  snap:
+    name: core
+
+- name: Remove if certbot installed
+  apt:
+    name: certbot
+    state: absent
+
+- name: Install core with option --classic
+  snap:
+    name: certbot
+    classic: yes
+
+- name: Create a symbolic link for certbot
+  file:
+    src: /snap/bin/certbot
+    dest: /usr/bin/certbot
+    state: link
+
+- name: Check if cert file exists for website_name_1
+  stat:
+    path: '/etc/letsencrypt/live/{{ website_name_1 }}/fullchain.pem'
+  register: cert_file_website_1
+
+- name: Check if cert file exists for website_name_2
+  stat:
+    path: '/etc/letsencrypt/live/{{ website_name_2 }}/fullchain.pem'
+  register: cert_file_website_2
+
+- name: Create SSL cert for website_name_1
+  command: 'certbot certonly --nginx -d {{ website_name_1 }} -m {{ cert_mail }} --agree-tos'
+  when: cert_file_website_1.stat.exists == false
+
+- name: Create SSL cert website_name_2
+  command: 'certbot certonly --nginx -d {{ website_name_2 }} -m {{ cert_mail }} --agree-tos'
+  when: cert_file_website_2.stat.exists == false
+
+- name: Copy nginx config file for website_name_1
+  template:
+    src: '{{ website_name_1 }}.conf.j2'
+    dest: '/etc/nginx/sites-enabled/{{ website_name_1 }}.conf'
+  notify: Reload nginx
+
+- name: Copy nginx config file website_name_2
+  template:
+    src: '{{ website_name_2 }}.conf.j2'
+    dest: '/etc/nginx/sites-enabled/{{ website_name_2 }}.conf'
+  notify: Reload nginx
+  
+- name: Remove file (delete default nginx file)
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Create node app dir
+  file:
+    path: '/home/ubuntu/{{ application_dir }}'
+    state: directory
+
+- name: Copy node app
+  copy:
+    src: app.js
+    dest: '/home/ubuntu/{{ application_dir }}/app.js'
+
+- name: Delete previus node server
+  command: 'pm2 delete /home/ubuntu/{{ application_dir }}/app.js'
+  ignore_errors: yes
+
+- name: Start node server
+  command: 'pm2 start /home/ubuntu/{{ application_dir }}/app.js'
+  notify: Reload nginx
+
+- name: Start service nginx, if not started
+  service:
+    name: nginx
+    state: started
+    enabled: yes

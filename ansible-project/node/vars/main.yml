@@ -1,0 +1,7 @@
+---
+# vars file for node
+user_name: task
+website_name_1: node1.cssp.tech
+website_name_2: node2.cssp.tech
+application_dir: node
+cert_mail: pandey.somnath007@gmail.com
