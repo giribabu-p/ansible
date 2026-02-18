@@ -1,0 +1,6 @@
+# play to install and configure Kafka,Zookeeper
+- include: kafka_zk_install.yaml
+
+- include: zookeeper_configure.yaml
+
+- include: kafka_configure.yaml

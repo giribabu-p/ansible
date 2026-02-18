@@ -1,0 +1,62 @@
+# task to install latest aws cli version
+- name: Install latest AWS CLI version
+  uri:
+    url: "{{ aws_cli_download_url }}"
+    dest: "{{ download_path }}/awscli.zip"
+  ignore_errors: true
+
+- name: Unzip the aws-cli installer
+  unarchive:
+    src: "{{ download_path }}/awscli.zip"
+    dest: "{{ download_path }}"
+    remote_src: yes
+
+- name: run the install program to install aws cli
+  command: "{{ download_path }}/aws/install"
+  ignore_errors: true
+
+# task to install ima-authenticator
+- name: Install aws-iam-authenticator
+  uri:
+    url: "{{ authenticator_download_url }}"
+    dest: "{{ download_path }}"
+  ignore_errors: true
+
+- name: Apply execute permissions to the binary
+  file:
+    path: "{{ download_path }}/aws-iam-authenticator"
+    mode: '0555'
+
+- name: copy binary to bin directory
+  copy:
+    src: "{{ download_path }}/aws-iam-authenticator"
+    dest: "{{ bin_dir_path }}"
+    remote_src: yes
+# task to install kubectl
+- name: Create kubectl yum repo
+  template:
+    src: kubectl.repo.j2
+    dest: "/etc/yum.repos.d/kubectl.repo"
+- name: Install kubectl 
+  yum:
+    name: kubectl 
+    state: present 
+# helm install
+- name: Download latest Helm version
+  uri:
+    url: "{{ helm_latest_url }}"
+    dest: "{{ download_path }}/"
+  ignore_errors: true
+- name: Untar helm 
+  unarchive:
+    src: "{{ download_path }}/helm-v{{ helm_latest_version }}-linux-amd64.tar.gz"
+    dest: "{{ download_path }}/"
+    remote_src: yes
+  ignore_errors: true
+
+- name: Move helm binary to usr/local/bin directory
+  copy:
+    src: "{{ download_path }}/linux-amd64/helm"
+    dest: "{{ bin_dir_path }}"
+    remote_src: yes
+    mode: '555'

@@ -1,0 +1,27 @@
+#play to install elasticearch
+
+- name: import public signing key
+  rpm_key:
+    state: present
+    key: "{{ rpm_key_elk }}"
+
+- name: create elasticsearch repo file
+  template:
+    src: "elasticsearch.repo"
+    dest: "{{ elasticsearch_repo_path }}"
+
+- name: install elasticsearch
+  yum:
+    name: elasticsearch
+    enablerepo: elasticsearch
+    state: present
+
+- name: Just force systemd to reread configs
+  systemd:
+    daemon_reload: yes
+
+- name: start and enable elasticsearch
+  service:
+    name: elasticsearch
+    state: started
+    enabled: yes

@@ -1,0 +1,31 @@
+# play to install kafka & zookeeper
+
+#- name: Update hosts file
+#  blockinfile:
+#    path: "/etc/hosts"
+##    block: |
+#      {% for host in groups.kafka_zk %}
+#      {{ hostvars[host].ipv4_address|default(hostvars[host]['ansible_default_ipv4']['address']) }} kafka-{{ loop.index }}
+#      {% endfor %}
+
+- name: Install openjdk Java-11 version
+  shell: "amazon-linux-extras install java-openjdk11 -y"
+
+- name: Download and extract kafka binary
+  unarchive:
+     src: "{{  kafka_download_offc_url }}"
+     dest:  "{{ kafka_installation_dir }}"
+     remote_src: yes
+- name: Check kafka download status
+  stat:
+    path: "{{ kafka_installation_dir }}/kafka_{{ kafka_scala_version }}-{{ kafka_version }}"
+  register: kafka_download_stats
+
+
+- name: Renaming kafka downloaded directory for ease of use
+  copy:
+    src: "{{ kafka_installation_dir }}/kafka_{{ kafka_scala_version }}-{{ kafka_version }}/"
+    dest: "{{ kafka_installation_dir }}/kafka"
+    owner: "root"
+    remote_src: yes
+

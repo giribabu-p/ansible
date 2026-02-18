@@ -1,0 +1,10 @@
+# elk vars
+elk_version: "7.x"
+
+rpm_key_elk: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
+
+elasticsearch_repo_path: "/etc/yum.repos.d/elasticearch.repo"
+
+kibana_repo_path: "/etc/yum.repos.d/kibana.repo"
+
+logstash_repo_path: "/etc/yum.repos.d/logstash.repo"

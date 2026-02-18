@@ -1,0 +1,18 @@
+aws_cli_download_url: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-{{ aws_cli_version }}.zip"
+
+aws_cli_version: '2.0.30'
+
+download_path: "/tmp"
+
+bin_dir_path: "/usr/local/bin"
+
+authenticator_download_url: "https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator"
+
+
+k8s_version: "1.19.6"
+
+helm_latest_version: "3.7.2"
+
+helm_latest_url: "https://get.helm.sh/helm-v{{ helm_latest_version }}-linux-amd64.tar.gz"
+
+helm_latest_script: "curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3"

@@ -1,0 +1,8 @@
+mongodb_ops_manager_binary: "https://downloads.mongodb.com/on-prem-mms/rpm/mongodb-mms-{{ ops_manager_version }}.x86_64.rpm"
+
+#refer for latest version: https://www.mongodb.com/try/download/ops-manager?jmp=docs
+ops_manager_version: '4.4.19.100.20211116T1357Z-1'
+
+mongod_start_command: 'sudo -u mongod mongod --dbpath /data/appdb --logpath /data/appdb/mongodb.log --wiredTigerCacheSizeGB 1 --fork'
+
+

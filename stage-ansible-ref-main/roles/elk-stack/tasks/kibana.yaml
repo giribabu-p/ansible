@@ -1,0 +1,16 @@
+#play to install kibana
+- name: create Kibana repo file
+  template:
+    src: "kibana.repo"
+    dest: "{{ kibana_repo_path }}"
+
+- name: install kibana
+  yum:
+    name: kibana
+    state: present
+
+- name: start and enable kibana 
+  service:
+    name: kibana
+    state: started
+    enabled: yes

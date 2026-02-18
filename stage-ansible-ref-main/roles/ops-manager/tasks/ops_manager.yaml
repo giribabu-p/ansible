@@ -1,0 +1,35 @@
+# play to install MongoDB Ops Manager
+---
+- name: Install MongoDB - create repo file (Amazon Linux)
+  copy: 
+   src:  mongodb.repo
+   dest: /etc/yum.repos.d/mongodb.repo
+
+- name: Install MongoDB package
+  yum: 
+    name: mongodb-org
+    state: present
+
+- name: Create data and log directories
+  file: 
+    state: directory
+    dest: /data/{{ item }} 
+    owner: mongod 
+    group: mongod 
+    mode: 0755
+  with_items:
+    - appdb
+    - backup 
+
+- name: Start Ops Manager Application DB instance(mongod)
+  shell: "{{ mongod_start_command }}"
+  ignore_errors: true
+
+- name: Download and Install Ops Manager
+  yum: 
+    name: "{{ mongodb_ops_manager_binary }}"
+    state: present 
+  
+- name: Start Ops Manager Application 
+  shell: 'service mongodb-mms start'
+

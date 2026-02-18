@@ -1,0 +1,24 @@
+#bastion.example.com	#10.50.40.227
+elk.example.com	#10.50.30.23
+ftp.example.com	#10.50.30.207
+grafana.example.com	#10.50.30.64
+kube.example.com	#10.50.30.195
+opsmanager.example.com	#10.50.30.134
+kube.example.com	#10.50.30.234
+nginx.example.com	#10.50.10.143
+
+[kafka_cluster]
+kafka1.example.com	 broker_id=1  ip1=10.50.30.48
+kafka2.example.com    broker_id=2  ip2=10.50.40.102
+
+[mongo_message]
+message1.example.com	#10.50.30.32
+message2.example.com	#10.50.40.186
+
+[hazelcast_cluster]
+hc1.example.com	#10.50.30.133
+hc2.example.com	#10.50.40.176
+
+[all:vars]
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+#ansible_python_interpreter='/usr/bin/python3'

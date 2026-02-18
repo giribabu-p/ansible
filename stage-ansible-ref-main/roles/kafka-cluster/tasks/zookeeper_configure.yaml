@@ -1,0 +1,28 @@
+---
+- name: Creating data directory for Zookeeper Snapshots
+  file:
+     path:  "{{ zookeeper_data_dir }}"
+     state: directory
+     mode: 0755
+
+- name: Updating zookeeper broker id configuration
+  template:
+    src: "myid.j2"
+    dest: "{{ zookeeper_data_dir }}/myid"
+
+- name: Configuring zookeeper service
+  template:
+    dest: "{{ systemd_path }}/zookeeper.service"
+    src: "zookeeper.service.j2"
+    owner: root
+  notify:
+    - Reload systemd daemon
+
+- name: Update zookeeper cluster configuration properties
+  template:
+    dest: "{{ config_properties_path }}/zookeeper.properties"
+    src: "zookeeper.properties.j2" 
+    owner: root 
+  notify:
+    - Start zookeeper service 
+    

@@ -1,0 +1,12 @@
+- name: Start the Hazelcast Service 
+  service:
+    name: hazelcast
+    state: started
+    enabled: yes
+
+- name: Start the Hazelcast Mancenter Service 
+  service:
+    name: hazelcast_mancenter 
+    state: started
+    enabled: yes
+

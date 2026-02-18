@@ -1,0 +1,12 @@
+[Unit]
+Description=Kafka
+Before=
+After=network.target
+
+[Service]
+Environment={{ kafka_jmx_systemd_path }}
+ExecStart={{ kafka_installation_dir }}/kafka/bin/kafka-server-start.sh {{ kafka_installation_dir }}/kafka/config/server.properties
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

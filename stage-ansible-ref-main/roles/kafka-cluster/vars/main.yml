@@ -1,0 +1,31 @@
+
+kafka_download_offc_url: "https://dlcdn.apache.org/kafka/{{ kafka_version }}/kafka_{{ kafka_scala_version }}-{{ kafka_version }}.tgz"
+kafka_version: "3.0.0"
+kafka_scala_version: "2.13"
+kafka_installation_dir: "/data"
+kafka_zk_hosts:
+   - kafka1.stagedarby.com:2181
+   - kafka2.stagedarby.com:2181
+
+# kafka-configuration avrs
+kafka_logs_dir: "{{ kafka_installation_dir }}/kafka/kafka-logs"
+kafka_jmx_dir: "{{ kafka_installation_dir }}/kafka/prometheus"
+systemd_path: "/etc/systemd/system"
+config_properties_path: "{{ kafka_installation_dir }}/kafka/config/"
+kafka_partitions: "2"
+kafka_log_retention_hrs: "24"
+jmx_jar_file: jmx_prometheus_javaagent-0.15.0.jar
+kafka_jmx_systemd_path: "KAFKA_OPTS=-javaagent:{{ kafka_installation_dir }}/kafka/prometheus/{{ jmx_jar_file }}=kafka{{ broker_id }}.stageinternal.com:7071:{{ kafka_installation_dir }}/kafka/prometheus/kafka-0-8-2.yml"
+# zookeeper config vars
+zookeeper_data_dir: "{{ kafka_installation_dir }}/kafka/zookeeper-data"
+zookeeper_port: 2181
+max_client_connection: "0"
+init_limit: "5"
+sync_limit: "2"
+tick_time: "2000"
+ip1: '10.50.30.48'
+ip2: '10.50.40.102'
+
+
+######
+jmx_jar_download: "https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.15.0/jmx_prometheus_javaagent-0.15.0.jar"

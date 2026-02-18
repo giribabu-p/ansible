@@ -1,0 +1,10 @@
+hc_url_latest: "https://github.com/hazelcast/hazelcast/releases/download/v{{ hc_version }}/hazelcast-{{ hc_version }}.tar.gz"
+
+
+hc_version: '5.0.2'
+hc_installation_dir: "/opt"
+
+
+systemd_path: "/etc/systemd/system"
+
+# Refer https://hazelcast.com/open-source-projects/downloads for latest version.

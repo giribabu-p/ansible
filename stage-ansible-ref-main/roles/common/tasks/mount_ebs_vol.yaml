@@ -1,0 +1,7 @@
+- name: Mount data volume to instance
+  shell: {{ item }}
+  with_items:
+     - export deviceid=$(lsblk | egrep 'nvme1n1|xvdh' | awk '{print $1}')
+     - mkfs -t xfs /dev/$deviceid
+     - mkdir /data 
+     - mount /dev/$deviceid /data

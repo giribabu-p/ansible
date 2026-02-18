@@ -1,0 +1,74 @@
+---
+#- name: Playbook to Install Mongodb Ops Manager Agent
+#  hosts: mongo_message 
+#  become: true
+##  remote_user: ec2-user
+#  gather_facts: no 
+#  roles:
+#    - ops-mongodb-agent
+#- name: Playbook to Install Mongodb Ops Manager
+#  hosts: opsmanager.stageinternal.com
+#  become: true
+#  remote_user: ec2-user
+#  gather_facts: no 
+#  roles:
+#    - ops-manager
+
+#- name: Playbook to Install Kafka and Zookeper as a cluster 
+#  hosts: kafka_cluster
+##  become: true
+##  remote_user: ec2-user
+#  gather_facts: no 
+#  roles:
+#    - kafka-cluster
+
+#- name: Playbook to Install ELK Stack  
+#  hosts:  elk.stageinternal.com
+#  become: true
+#  remote_user: ec2-user
+#  gather_facts: no 
+#  roles:
+#    - elk-stack
+- name: Playbook to Install hazelcast 
+  hosts:  hazelcast_cluster
+  become: true
+  gather_facts: no 
+  remote_user: ec2-user
+  roles:
+    - hazelcast
+
+#- name: Playbook to Install utilities like kuebctl,awscli,aws-iam-authenticator
+#  hosts:  kube.stageinternal.com
+#  become: true
+#  remote_user: ec2-user
+#  roles:
+#    - kube
+
+#- name: Playbook to Install Nginx Service on Public/Private nginx servers 
+#  hosts: nginx.stageinternal.com
+#  become: true
+#  remote_user: ec2-user
+#  roles:
+#    - nginx
+
+#- name: Playbook to Install FTP Service 
+#  hosts: ftp.stageinternal.com
+#  become: true
+# remote_user: ec2-user
+#  roles:
+#    - ftp 
+
+#- name: Playbook to Install Node Exporter,Cloudwatch Agent and Updating System packages 
+#  hosts: all 
+#  become: true
+##  remote_user: ec2-user
+#  roles:
+#    - common
+
+#- name: Playbook to Install Prometheus and Grafana
+#  hosts: grafana.stageinternal.com
+#  become: true
+#  remote_user: ec2-user
+#  roles:
+#    - prometheus-grafana
+#

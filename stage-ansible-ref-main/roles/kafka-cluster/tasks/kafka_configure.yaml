@@ -1,0 +1,39 @@
+---
+- name: Creating log directory for kafka_logs
+  file:
+     path:  "{{ kafka_logs_dir }}"
+     state: directory
+     mode: 0755
+
+- name: Configuring Kafka service
+  template:
+    dest: "{{ systemd_path }}/kafka.service"
+    src: "kafka.service.j2"
+    owner: root
+  notify:
+    - Reload systemd daemon
+
+- name: Creating prometheus directory for kafka JMX conf files
+  file:
+     path: "{{ kafka_jmx_dir }}"
+     state: directory
+     mode: 0755
+
+- name: Download JMX java agent jar file
+  get_url:
+     url: "{{ jmx_jar_download }}"
+     dest: "{{ kafka_jmx_dir }}"
+
+- name: Add kafka jmx yaml file 
+  template:
+    dest: "{{ kafka_jmx_dir }}/kafka-0-8-2.yml"  #dest
+    src: "kafka-0-8-2.yml.j2" #local
+    owner: root 
+
+- name: Update kafka cluster configuration properties
+  template:
+    dest: "{{ config_properties_path }}/server.properties"
+    src: "server.properties.j2" 
+    owner: root 
+  notify:
+    - Start kafka service 

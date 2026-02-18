@@ -1,0 +1,15 @@
+#- name: Enable the Extra Packages (EPEL) repository
+#  shell: "amazon-linux-extras install epel -y"
+
+- name: Install nginx
+  shell: 'amazon-linux-extras install nginx1 -y'
+
+- name: Start and enable nginx service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+#- name: Remove default page
+#  file:
+#    state: absent
+#    path: /etc/nginx/sites-enabled/default

@@ -1,0 +1,28 @@
+#############
+Installation
+configure ssh connectivity
+Ansible configuration
+Ansible Inventories
+Ansible Modules
+Ansible Playbooks, Breakdown of Sections
+Ansible Playbooks, Variables
+Ansible Playbooks, Facts
+Templating with Jinja2
+Ansible Playbooks, Creating and Executing
+Ansible Playbook Modules
+Dynamic Inventories
+Register and When
+Looping
+Asynchronous, Serial, Parallel
+Task Delegation
+Magic Variables
+Blocks
+Vault
+Using Includes and Imports
+Using Tags
+Using Roles
+Creating Modules
+Creating Plugins
+Troubleshooting Ansible
+Best Practices with Ansible
+
